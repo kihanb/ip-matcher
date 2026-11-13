@@ -1,0 +1,51 @@
+# === Project Runtime Data & Sensitive User State ===
+data/
+browser_profiles/
+settings.json
+ip-matcher-profiles.json
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+*.sqlite
+*.sqlite3
+*.log
+
+# === Python Cache & Compiled Files ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+.Python
+
+# === Virtual Environments ===
+.venv/
+venv/
+env/
+ENV/
+
+# === Testing, Lint & Coverage Caches ===
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+
+# === Build & Packaging (PyInstaller / Setuptools) ===
+build/
+dist/
+*.spec
+*.egg-info/
+.eggs/
+
+# === IDE & OS Generated Files ===
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.tmp
+*.bak

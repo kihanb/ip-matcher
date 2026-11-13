@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    try {
+      document.querySelector('meta[name="color-scheme"]').content =
+        localStorage.getItem("color-scheme") ?? "light dark";
+    } catch (_) {}
+  </script>
+  <title>IP Matcher — سپر هوشمند هماهنگی سیستم</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="ناوبری اصلی">
+      <div class="brand-card">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title" data-i18n="appName">آی‌پی مَچِر</span>
+          <span class="brand-sub" data-i18n="appTagline">سپر هوشمند رفع تحریم</span>
+        </div>
+      </div>
+
+      <nav class="nav-list" role="tablist" aria-label="بخش‌های برنامه">
+        <button type="button" class="nav-btn" role="tab" id="tab-dashboard" aria-selected="true" aria-controls="panel-dashboard" data-panel="dashboard">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+          <span data-i18n="navDashboard">داشبورد هوشمند</span>
+        </button>
+        <button type="button" class="nav-btn" role="tab" id="tab-profiles" aria-selected="false" aria-controls="panel-profiles" data-panel="profiles" tabindex="-1">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+          <span data-i18n="navProfiles">پروفایل‌ها و بازگشت</span>
+        </button>
+        <button type="button" class="nav-btn" role="tab" id="tab-diagnostics" aria-selected="false" aria-controls="panel-diagnostics" data-panel="diagnostics" tabindex="-1">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span data-i18n="navDiagnostics">تشخیص نشت و مرورگر</span>
+        </button>
+        <button type="button" class="nav-btn" role="tab" id="tab-settings" aria-selected="false" aria-controls="panel-settings" data-panel="settings" tabindex="-1">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span data-i18n="navSettings">تنظیمات هوشمند</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button type="button" id="btn-smart-toggle" class="pill-status" aria-pressed="false">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="smart-toggle-label" data-i18n="smartAutoOff">حالت هوشمند: دستی</span>
+        </button>
+
+        <button type="button" id="btn-admin-badge" class="pill-admin">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span id="admin-badge-label" data-i18n="adminNeeded">کاربر عادی (ارتقا به مدیر)</span>
+        </button>
+
+        <div class="quick-bar">
+          <button type="button" id="btn-lang-switch" class="btn btn-ghost btn-sm" aria-label="تغییر زبان برنامه">
+            <bdi dir="ltr">FA / EN</bdi>
+          </button>
+          <button type="button" id="btn-theme-cycle" class="btn btn-ghost btn-sm" aria-label="تغییر پوسته رنگی">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="content-area">
+      <header class="topbar">
+        <div class="topbar-title-group">
+          <h1 id="page-heading" data-i18n="navDashboard">داشبورد هوشمند</h1>
+          <span id="last-checked-badge" class="muted-meta"></span>
+        </div>
+        <div class="topbar-actions">
+          <button type="button" id="btn-refresh" class="btn btn-secondary">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            <span data-i18n="refreshNow">بررسی لحظه‌ای</span>
+          </button>
+          <button type="button" id="btn-undo-last" class="btn btn-secondary">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>
+            <span data-i18n="undoLast">بازگشت به تنظیمات قبلی</span>
+          </button>
+          <button type="button" id="btn-sync-primary" class="btn btn-primary">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span data-i18n="syncNow">هماهنگ‌سازی کامل با آی‌پی فعلی</span>
+          </button>
+        </div>
+      </header>
+
+      <main id="main-content">
+        <!-- TAB 1: DASHBOARD -->
+        <section id="panel-dashboard" role="tabpanel" aria-labelledby="tab-dashboard" class="tab-panel active">
+          <div class="hero-grid">
+            <!-- Alignment Score Gauge Card -->
+            <article class="card gauge-card">
+              <div class="gauge-wrap">
+                <svg class="score-ring" viewBox="0 0 120 120" width="136" height="136" aria-hidden="true">
+                  <circle class="ring-track" cx="60" cy="60" r="50"/>
+                  <circle id="score-ring-fill" class="ring-fill" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+                </svg>
+                <div class="gauge-center">
+                  <span id="score-value" class="score-num">--</span>
+                  <span class="score-pct">%</span>
+                </div>
+              </div>
+              <div class="gauge-info">
+                <span class="eyebrow" data-i18n="alignmentScore">امتیاز هماهنگی</span>
+                <h2 id="risk-headline" data-i18n="statusUnknown">در حال بررسی...</h2>
+                <p id="risk-subline" class="muted-text"></p>
+                <div class="gauge-actions">
+                  <button type="button" id="btn-save-snapshot-hero" class="btn btn-secondary btn-sm" data-i18n="saveCurrentProfile">ذخیره وضعیت فعلی</button>
+                  <button type="button" id="btn-restore-baseline-hero" class="btn btn-ghost btn-sm" data-i18n="restoreBaseline">بازگشت به حالت اولیه</button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Live IP & Geolocation Telemetry Card -->
+            <article class="card telemetry-card">
+              <div class="telemetry-grid">
+                <div class="metric-box">
+                  <span class="metric-label" data-i18n="publicIpLabel">آی‌پی عمومی فعلی</span>
+                  <strong class="metric-value mono"><bdi dir="ltr" id="val-ip">--</bdi></strong>
+                  <span id="val-ip-badge" class="badge badge-neutral">--</span>
+                </div>
+                <div class="metric-box">
+                  <span class="metric-label" data-i18n="locationLabel">موقعیت جغرافیایی آی‌پی</span>
+                  <strong class="metric-value" id="val-location">--</strong>
+                  <span class="metric-sub mono"><bdi dir="ltr" id="val-coords">--</bdi></span>
+                </div>
+                <div class="metric-box">
+                  <span class="metric-label" data-i18n="timezoneLabel">منطقه زمانی آی‌پی</span>
+                  <strong class="metric-value mono"><bdi dir="ltr" id="val-ip-tz">--</bdi></strong>
+                  <span class="metric-sub" id="val-ip-currency">--</span>
+                </div>
+                <div class="metric-box">
+                  <span class="metric-label" data-i18n="systemTimeLabel">ساعت و منطقه فعلی ویندوز</span>
+                  <strong class="metric-value mono"><bdi dir="ltr" id="val-sys-tz">--</bdi></strong>
+                  <span class="metric-sub mono"><bdi dir="ltr" id="val-sys-time">--</bdi></span>
+                </div>
+              </div>
+              <div class="isp-strip">
+                <span class="muted-label" data-i18n="ispLabel">ارائه‌دهنده / شبکه:</span>
+                <bdi dir="ltr" id="val-isp" class="mono">--</bdi>
+              </div>
+            </article>
+          </div>
+
+          <!-- Planned Diff / Action Banner -->
+          <article class="card diff-card" id="planned-changes-card">
+            <div class="card-header">
+              <h2 data-i18n="pendingChangesTitle">تغییرات پیشنهادی برای هماهنگی کامل</h2>
+              <button type="button" id="btn-launch-browser-quick" class="btn btn-secondary btn-sm">
+                <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                <span data-i18n="launchBrowser">اجرای مرورگر ایزوله هماهنگ</span>
+              </button>
+            </div>
+            <div id="planned-changes-list" class="diff-pills"></div>
+          </article>
+
+          <!-- Detailed Fingerprint Audit Table -->
+          <article class="card table-card">
+            <div class="card-header">
+              <h2 data-i18n="checksTableTitle">بررسی دقیق فاکتورهای لو رفتن موقعیت</h2>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col" data-i18n="colFactor">فاکتور سیستم</th>
+                    <th scope="col" data-i18n="colCurrent">وضعیت فعلی ویندوز</th>
+                    <th scope="col" data-i18n="colExpected">مقدار هماهنگ با آی‌پی</th>
+                    <th scope="col" data-i18n="colStatus">وضعیت</th>
+                  </tr>
+                </thead>
+                <tbody id="checks-tbody"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <!-- TAB 2: PROFILES & ROLLBACK -->
+        <section id="panel-profiles" role="tabpanel" aria-labelledby="tab-profiles" class="tab-panel" hidden>
+          <div class="section-toolbar">
+            <div>
+              <h2 data-i18n="profilesTitle">پروفایل‌های ذخیره‌شده و تاریخچه تغییرات</h2>
+              <p class="muted-text" data-i18n="profilesSubtitle">پشتیبان خودکار قبل از هر تغییر ذخیره می‌شود تا هر زمان با یک کلیک برگردید.</p>
+            </div>
+            <div class="toolbar-buttons">
+              <button type="button" id="btn-open-save-profile" class="btn btn-primary" data-i18n="saveCurrentProfile">ذخیره وضعیت فعلی</button>
+              <button type="button" id="btn-export-profiles" class="btn btn-secondary" data-i18n="exportProfiles">خروجی JSON</button>
+              <button type="button" id="btn-open-import-profile" class="btn btn-secondary" data-i18n="importProfiles">ورود JSON</button>
+            </div>
+          </div>
+
+          <article class="card country-preset-card">
+            <h3 data-i18n="quickCountryTitle">اعمال دستی پروفایل کشور</h3>
+            <p class="muted-text" data-i18n="quickCountryHint">برای تست یا آماده‌سازی پیش از اتصال VPN، کشور مورد نظر را انتخاب کنید:</p>
+            <div class="country-picker-row">
+              <label for="country-select" class="visually-hidden">انتخاب کشور</label>
+              <select id="country-select" class="input-control"></select>
+              <button type="button" id="btn-apply-country" class="btn btn-secondary" data-i18n="applyCountryBtn">اعمال کشور</button>
+            </div>
+          </article>
+
+          <div id="snapshots-grid" class="snapshots-grid"></div>
+        </section>
+
+        <!-- TAB 3: LEAK DIAGNOSTICS & BROWSER -->
+        <section id="panel-diagnostics" role="tabpanel" aria-labelledby="tab-diagnostics" class="tab-panel" hidden>
+          <div class="diag-grid">
+            <article class="card">
+              <h2 data-i18n="dnsTitle">تحلیل سرورهای DNS فعال</h2>
+              <div id="diag-dns-body" class="diag-body"></div>
+            </article>
+            <article class="card">
+              <h2 data-i18n="ipv6Title">وضعیت تونل IPv6</h2>
+              <div id="diag-ipv6-body" class="diag-body"></div>
+            </article>
+            <article class="card">
+              <h2 data-i18n="ipReputationTitle">ماهیت آی‌پی (مسکونی / دیتاسنتر)</h2>
+              <div id="diag-reputation-body" class="diag-body"></div>
+            </article>
+          </div>
+
+          <article class="card browser-card">
+            <h2 data-i18n="browserIsolationTitle">راه‌اندازی مرورگر ایزوله هماهنگ با آی‌پی</h2>
+            <p class="muted-text" data-i18n="browserIsolationDesc">یک پروفایل جداگانه در Edge یا Chrome با زبان و تنظیمات کشور مقصد باز می‌شود.</p>
+            <div class="browser-launch-row">
+              <div class="field-group">
+                <label for="browser-url-input" data-i18n="browserUrlLabel">آدرس تست یا سرویس مقصد</label>
+                <input type="url" id="browser-url-input" class="input-control" dir="ltr" value="https://whoer.net">
+              </div>
+              <button type="button" id="btn-launch-browser-full" class="btn btn-primary" data-i18n="launchBrowser">اجرای مرورگر ایزوله هماهنگ</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <h2 data-i18n="logsTitle">گزارش رویدادها و تغییرات اخیر</h2>
+            <ul id="logs-list" class="logs-list"></ul>
+          </article>
+        </section>
+
+        <!-- TAB 4: SMART SETTINGS -->
+        <section id="panel-settings" role="tabpanel" aria-labelledby="tab-settings" class="tab-panel" hidden>
+          <div class="settings-grid">
+            <article class="card">
+              <h2 data-i18n="proxySectionTitle">روش تشخیص آی‌پی و اتصال شبکه</h2>
+              <div class="field-group">
+                <label for="setting-proxy-mode" data-i18n="proxyModeLabel">حالت پروکسی تشخیص آی‌پی</label>
+                <select id="setting-proxy-mode" class="input-control">
+                  <option value="system" data-i18n="proxySystem">استفاده از پروکسی سیستم / VPN ویندوز</option>
+                  <option value="direct" data-i18n="proxyDirect">اتصال مستقیم (بدون پروکسی)</option>
+                  <option value="custom" data-i18n="proxyCustom">پروکسی سفارشی (SOCKS5 / HTTP)</option>
+                </select>
+              </div>
+              <div class="field-group" id="custom-proxy-wrap">
+                <label for="setting-custom-proxy" data-i18n="customProxyLabel">آدرس پروکسی سفارشی</label>
+                <input type="text" id="setting-custom-proxy" class="input-control" dir="ltr" placeholder="socks5h://127.0.0.1:10808">
+              </div>
+            </article>
+
+            <article class="card">
+              <h2 data-i18n="automationSectionTitle">پایش خودکار تغییر آی‌پی</h2>
+              <label class="toggle-row">
+                <input type="checkbox" id="setting-smart-auto">
+                <span data-i18n="smartAutoLabel">همگام‌سازی خودکار هنگام تغییر آی‌پی یا کشور</span>
+              </label>
+              <label class="toggle-row">
+                <input type="checkbox" id="setting-auto-snapshot">
+                <span data-i18n="autoSnapshotLabel">ذخیره خودکار تنظیمات قبلی پیش از هر تغییر</span>
+              </label>
+              <label class="toggle-row">
+                <input type="checkbox" id="setting-minimize-tray">
+                <span data-i18n="minimizeTrayLabel">کوچک‌شدن در نوار وظیفه هنگام بستن پنجره</span>
+              </label>
+              <div class="field-group">
+                <label for="setting-watch-interval" data-i18n="watchIntervalLabel">بازه بررسی پس‌زمینه (ثانیه)</label>
+                <input type="number" id="setting-watch-interval" class="input-control" min="5" max="300" step="1">
+              </div>
+            </article>
+
+            <article class="card">
+              <h2 data-i18n="syncComponentsTitle">مواردی که هنگام همگام‌سازی تغییر داده شوند</h2>
+              <label class="toggle-row"><input type="checkbox" id="setting-sync-tz"><span data-i18n="optTimezone">منطقه زمانی ویندوز</span></label>
+              <label class="toggle-row"><input type="checkbox" id="setting-sync-ntp"><span data-i18n="optNtp">همگام‌سازی ساعت (NTP)</span></label>
+              <label class="toggle-row"><input type="checkbox" id="setting-sync-geoid"><span data-i18n="optGeoid">کشور سیستم (GeoID)</span></label>
+              <label class="toggle-row"><input type="checkbox" id="setting-sync-culture"><span data-i18n="optCulture">فرمت منطقه‌ای و ارز (Culture)</span></label>
+              <label class="toggle-row"><input type="checkbox" id="setting-sync-lang"><span data-i18n="optLanguage">اولویت زبان سیستم</span></label>
+              <label class="toggle-row"><input type="checkbox" id="setting-keep-fa"><span data-i18n="optKeepFa">حفظ کیبورد فارسی به‌عنوان زبان دوم</span></label>
+              <label class="toggle-row"><input type="checkbox" id="setting-sync-loc"><span data-i18n="optLocationGuard">مسدودسازی نشت موقعیت مکانی ویندوز</span></label>
+              <label class="toggle-row"><input type="checkbox" id="setting-sync-dns"><span data-i18n="optDns">تنظیم DNS ضدنشت</span></label>
+              <div class="field-group">
+                <label for="setting-dns-provider" data-i18n="dnsProviderLabel">سرویس‌دهنده DNS پیشنهادی</label>
+                <select id="setting-dns-provider" class="input-control">
+                  <option value="cloudflare">Cloudflare (1.1.1.1 / 1.0.0.1)</option>
+                  <option value="google">Google DNS (8.8.8.8 / 8.8.4.4)</option>
+                  <option value="quad9">Quad9 (9.9.9.9 / 149.112.112.112)</option>
+                </select>
+              </div>
+            </article>
+
+            <article class="card">
+              <h2 data-i18n="appearanceSectionTitle">ظاهر و زبان برنامه</h2>
+              <div class="field-group">
+                <label for="setting-theme" data-i18n="themeLabel">پوسته رنگی</label>
+                <select id="setting-theme" class="input-control">
+                  <option value="system" data-i18n="themeSystem">هماهنگ با ویندوز</option>
+                  <option value="dark" data-i18n="themeDark">تیره (Dark)</option>
+                  <option value="light" data-i18n="themeLight">روشن (Light)</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="setting-ui-lang" data-i18n="uiLangLabel">زبان رابط کاربری</label>
+                <select id="setting-ui-lang" class="input-control">
+                  <option value="fa">فارسی (راست‌چین)</option>
+                  <option value="en">English (LTR)</option>
+                </select>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Native Modal Dialogs -->
+  <dialog id="confirm-apply-dialog" aria-labelledby="confirm-apply-title">
+    <h1 id="confirm-apply-title" data-i18n="confirmApplyTitle">پیش‌نمایش تغییرات سیستم</h1>
+    <p class="muted-text" data-i18n="confirmApplyDesc">پیش از اعمال تغییرات زیر، یک نسخه پشتیبان خودکار از وضعیت فعلی ذخیره می‌شود:</p>
+    <ul id="confirm-diff-list" class="diff-modal-list"></ul>
+    <form method="dialog" class="dialog-actions">
+      <button type="submit" value="cancel" class="btn btn-secondary" autofocus data-i18n="cancel">انصراف</button>
+      <button type="submit" value="confirm" class="btn btn-primary" data-i18n="confirm">تایید و اعمال</button>
+    </form>
+  </dialog>
+
+  <dialog id="save-profile-dialog" aria-labelledby="save-profile-title">
+    <h1 id="save-profile-title" data-i18n="saveProfileModalTitle">ذخیره وضعیت فعلی ویندوز به‌عنوان پروفایل</h1>
+    <form method="dialog" id="save-profile-form" class="dialog-form">
+      <div class="field-group">
+        <label for="input-profile-name" data-i18n="profileNameLabel">نام پروفایل</label>
+        <input type="text" id="input-profile-name" class="input-control" required autofocus>
+      </div>
+      <div class="field-group">
+        <label for="input-profile-notes" data-i18n="profileNotesLabel">توضیحات (اختیاری)</label>
+        <input type="text" id="input-profile-notes" class="input-control">
+      </div>
+      <div class="dialog-actions">
+        <button type="submit" value="cancel" class="btn btn-secondary" formnovalidate data-i18n="cancel">انصراف</button>
+        <button type="submit" value="save" class="btn btn-primary" data-i18n="save">ذخیره پروفایل</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="import-profile-dialog" aria-labelledby="import-profile-title">
+    <h1 id="import-profile-title" data-i18n="importProfiles">ورود JSON</h1>
+    <form method="dialog" class="dialog-form">
+      <div class="field-group">
+        <label for="input-import-json">JSON</label>
+        <textarea id="input-import-json" class="input-control" rows="6" dir="ltr"></textarea>
+      </div>
+      <div class="dialog-actions">
+        <button type="submit" value="cancel" class="btn btn-secondary" autofocus data-i18n="cancel">انصراف</button>
+        <button type="submit" value="import" class="btn btn-primary" data-i18n="importProfiles">ورود JSON</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Toast Stack Container (Top-layer popovers) -->
+  <div id="toast-region" class="toast-region" aria-live="polite"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
